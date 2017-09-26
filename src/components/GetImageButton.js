@@ -4,7 +4,9 @@ class GetImageButton extends Component {
   render(){
     return(
       <div>
-        GetImageButton
+        <button onClick={this.props.fetchImages}>
+          Display Images
+        </button>
       </div>
     )
   }

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import ImageDisplay from './ImageDisplay'
+import GetImageButton from './GetImageButton'
 
 const API_KEY = "NNKOjkoul8n1CH18TWA9gwngW1s1SmjESPjNoUFo"
 
@@ -11,7 +12,7 @@ class GetImageForm extends Component {
       rover: "Curiosity",
       camera: "FHAZ",
       images: [],
-      sol: "1000"
+      sol: ""
     }
   }
 
@@ -19,7 +20,8 @@ class GetImageForm extends Component {
     this.setState({
       camera: this.state.camera,
       rover: this.state.rover,
-      sol: this.state.sol
+      sol: this.state.sol,
+      images: []
     });
 
     let cam = this.state.camera;
@@ -32,6 +34,10 @@ class GetImageForm extends Component {
     }).then(data => {
       console.log("data", data);
       this.setState({images: data.photos})
+    }).catch(error => {
+      this.setState({
+        images: []
+      })
     })
   }
 
@@ -60,11 +66,11 @@ class GetImageForm extends Component {
       rover: event.target.rover.value,
       sol: event.target.sol.value
     })
-    console.log(this.state);
+    // console.log(this.state);
   }
 
   componentDidMount() {
-    this.fetchRoverImage();
+    // this.fetchRoverImage();
   }
 
   render() {
@@ -86,6 +92,7 @@ class GetImageForm extends Component {
           <label htmlFor="sol">Martian Sol: 1000-2000</label>
           <input type="number" id="sol" onChange={this.handleSol} max="2000" min="1000" value={this.state.value}/>
         </form>
+        <GetImageButton fetchImages={this.fetchRoverImage} />
         <ImageDisplay images={this.state.images} />
       </div>
     )
